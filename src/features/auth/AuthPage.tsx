@@ -1,5 +1,16 @@
 import { AuthForm } from './components/AuthForm';
 
+const CATEGORIES = [
+  { emoji: '🛒', name: 'Abarrotes', items: 'Arroz, azúcar, aceite...' },
+  { emoji: '🥤', name: 'Bebidas', items: 'Agua, gaseosas, jugos...' },
+  { emoji: '🥛', name: 'Lácteos', items: 'Leche, queso, yogur...' },
+  { emoji: '🍞', name: 'Panadería', items: 'Pan, galletas, tostadas...' },
+  { emoji: '🧹', name: 'Limpieza', items: 'Jabón, detergente, lejía...' },
+  { emoji: '🍿', name: 'Snacks', items: 'Papas, chifles, maní...' },
+  { emoji: '🥩', name: 'Carnes', items: 'Pollo, res, menudencia...' },
+  { emoji: '🧃', name: 'Licores', items: 'Cerveza, vino, ron...' },
+];
+
 /** Vista pública de acceso y registro, centrada y adaptable a dispositivos móviles. */
 export function AuthPage({ register = false }: { register?: boolean }) {
   return (
@@ -8,32 +19,18 @@ export function AuthPage({ register = false }: { register?: boolean }) {
       <div className="auth-visual" aria-hidden="true">
         <div className="auth-visual-inner">
           <p className="auth-visual-brand">Bodeko.</p>
-          <p className="auth-visual-tagline">Tu bodega,<br />en el celular<br />de tus vecinos.</p>
+          <p className="auth-visual-tagline">
+            Vende tus<br />productos<br />en línea.
+          </p>
 
-          {/* Tarjetas flotantes animadas */}
-          <div className="auth-float-card auth-float-1">
-            <span className="auth-float-label">Vendido hoy</span>
-            <span className="auth-float-value">S/ 248</span>
-            <span className="auth-float-hint">↑ 3 pedidos cobrados</span>
-          </div>
-
-          <div className="auth-float-card auth-float-2">
-            <div className="auth-float-row">
-              <span className="auth-float-dot" />
-              <span>Bodega Doña Rosa</span>
-            </div>
-            <div className="auth-float-row auth-float-row-muted">
-              <span>Nuevo pedido</span>
-              <strong>S/ 85</strong>
-            </div>
-          </div>
-
-          <div className="auth-float-card auth-float-3">
-            <span className="auth-float-label">Stock bajo</span>
-            <div className="auth-float-items">
-              <span>Leche Gloria 1L</span>
-              <span>Arroz Costeño 5kg</span>
-            </div>
+          <div className="auth-cat-grid">
+            {CATEGORIES.map((cat) => (
+              <div key={cat.name} className="auth-cat-card">
+                <span className="auth-cat-emoji">{cat.emoji}</span>
+                <span className="auth-cat-name">{cat.name}</span>
+                <span className="auth-cat-items">{cat.items}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
