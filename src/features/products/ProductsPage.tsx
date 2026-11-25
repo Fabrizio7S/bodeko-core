@@ -70,9 +70,13 @@ export function ProductsPage() {
       <ErrorNotice message={action.error} />
       {resource.loading ? (
         <Loading />
+      ) : resource.error ? null : !resource.data?.length ? (
+        <Empty title="No hay ningún producto registrado">
+          <p>Usa «Agregar producto» para registrar el primero.</p>
+        </Empty>
       ) : !products?.length ? (
         <Empty title="No hay productos para mostrar">
-          <p>Agrega un producto o cambia los filtros.</p>
+          <p>Ningún producto coincide con la búsqueda o el estado elegido.</p>
         </Empty>
       ) : (
         <div className="card table-wrap">

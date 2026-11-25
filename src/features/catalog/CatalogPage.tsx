@@ -76,10 +76,16 @@ export function CatalogPage() {
       <ErrorNotice message={resource.error} retry={resource.reload} />
       {resource.loading ? (
         <Loading />
-      ) : resource.data?.content.length === 0 ? (
-        <Empty title="No encontramos productos">
-          <p>Prueba otra búsqueda o cambia los filtros.</p>
-        </Empty>
+      ) : resource.error ? null : !resource.data?.content.length ? (
+        search || categoryId || inStock ? (
+          <Empty title="No encontramos productos">
+            <p>Prueba otra búsqueda o cambia los filtros.</p>
+          </Empty>
+        ) : (
+          <Empty title="No hay ningún producto registrado">
+            <p>Esta tienda todavía no tiene productos. Vuelve pronto.</p>
+          </Empty>
+        )
       ) : (
         <>
           <p className="muted">{resource.data?.totalElements ?? 0} productos</p>
