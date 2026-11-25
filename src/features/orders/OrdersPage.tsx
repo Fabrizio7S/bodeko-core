@@ -21,7 +21,7 @@ export function OrdersPage() {
   return (
     <>
       <PageHeader
-        title="Órdenes"
+        title="Pedidos"
         description="Acompaña cada venta desde su recepción hasta la entrega."
       />
       <div className="card filters">
@@ -45,7 +45,7 @@ export function OrdersPage() {
       {resource.loading ? (
         <Loading />
       ) : !resource.data?.content.length ? (
-        <Empty title="No hay órdenes con este estado" />
+        <Empty title="No hay pedidos con este estado" />
       ) : (
         <>
           <div className="card table-wrap">

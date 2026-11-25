@@ -14,7 +14,7 @@ export function InventoryPage() {
   return (
     <>
       <PageHeader
-        title="Inventario"
+        title="Stock"
         description="Mantén tus existencias al día y anticipa el stock bajo."
       />
       <div className="card">

@@ -11,8 +11,8 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --green: #008060;
-  --green-dark: #006e52;
+  --green: var(--brand);
+  --green-dark: var(--brand-dark);
   --muted: #6d7175;
   --border: #e1e3e5;
   --surface: #fff;
@@ -197,7 +197,7 @@ del {
   text-decoration: none;
 }
 .brand-dot {
-  color: #008060;
+  color: var(--brand);
 }
 .header-inner nav {
   display: flex;
@@ -319,7 +319,7 @@ del {
   color: #153e32;
 }
 .hero h1 span {
-  color: #008060;
+  color: var(--brand);
 }
 .hero p {
   font-size: 15px;
@@ -575,7 +575,7 @@ del {
   font-size: 11px;
   border-radius: 4px;
   background: #fff;
-  color: #006e52;
+  color: var(--brand-dark);
   border: 1px solid #d3e6da;
   font-weight: 600;
 }
@@ -641,8 +641,8 @@ del {
 }
 .field input:focus,
 .field select:focus {
-  outline: 2px solid #00806045;
-  border-color: #008060;
+  outline: 2px solid var(--brand)45;
+  border-color: var(--brand);
 }
 .field input[aria-invalid='true'] {
   border-color: #c52a1a;
@@ -959,7 +959,7 @@ del {
 }
 .admin-sidebar nav a.active {
   background: #dfeee5;
-  color: #006e52;
+  color: var(--brand-dark);
   font-weight: 650;
 }
 .sidebar-preview {
@@ -1757,13 +1757,13 @@ td select {
   background: #edf3ef;
 }
 .account-sidebar nav a.active {
-  color: #006e52;
+  color: var(--brand-dark);
   font-weight: 650;
   background: #e7f1eb;
-  box-shadow: inset 3px 0 #008060;
+  box-shadow: inset 3px 0 var(--brand);
 }
 .account-sidebar nav a.active > svg {
-  color: #008060;
+  color: var(--brand);
 }
 .account-sidebar nav button {
   margin-top: 6px;
@@ -1861,7 +1861,7 @@ td select {
 .order-status-filters button.selected {
   background: #e7f2eb;
   border-color: #cfe2d6;
-  color: #006e52;
+  color: var(--brand-dark);
   font-weight: 650;
 }
 .order-result-count {
@@ -2362,11 +2362,11 @@ td select {
 .movement-table-wrap td small { max-width: 250px; margin-top: 4px; color: var(--muted); white-space: normal; }
 .movement-badge { display: inline-flex; padding: 5px 9px; border-radius: 20px; background: #eef1f2; color: #42474b; font-size: 11px; font-weight: 650; white-space: nowrap; }
 .movement-reservation, .movement-reservation_release { background: #fff3cd; color: #795600; }
-.movement-sale, .movement-stock_entry, .movement-return { background: #e1f1e9; color: #006e52; }
+.movement-sale, .movement-stock_entry, .movement-return { background: #e1f1e9; color: var(--brand-dark); }
 .movement-adjustment { background: #eaf0ff; color: #315b9b; }
 .movement-damage, .movement-loss { background: #fde8e7; color: #b42318; }
 .movement-negative { color: #b42318; font-weight: 650; }
-.movement-positive { color: #008060; font-weight: 650; }
+.movement-positive { color: var(--brand); font-weight: 650; }
 @media (max-width: 900px) { .movement-filters { grid-template-columns: repeat(2, minmax(150px, 1fr)); } }
 @media (max-width: 580px) { .movement-filters { grid-template-columns: 1fr; padding: 16px; } .movement-filter-actions { align-items: flex-start; flex-direction: column; } }
 

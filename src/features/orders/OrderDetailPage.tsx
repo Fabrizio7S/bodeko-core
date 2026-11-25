@@ -45,7 +45,7 @@ export function OrderDetailPage() {
   return (
     <>
       <PageHeader
-        title="Detalle de orden"
+        title="Detalle del pedido"
         actions={<Link to={`/admin/${store.id}/ordenes`}>Volver a órdenes</Link>}
       />
       <section className="card">

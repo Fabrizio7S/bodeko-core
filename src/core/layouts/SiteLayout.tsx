@@ -25,13 +25,14 @@ export function SiteLayout() {
           <nav aria-label="Navegación principal">
             {isLanding ? (
               <>
-                <a href="#tiendas">Tiendas</a>
-                <a href="#como-funciona">Cómo funciona</a>
+                <a className="nav-anchor" href="#funciones">Qué incluye</a>
+                <a className="nav-anchor" href="#como-empezar">Cómo empezar</a>
+                <a className="nav-anchor" href="#tiendas">Tiendas</a>
               </>
             ) : (
               <Link to="/tiendas">Tiendas</Link>
             )}
-            {user?.role === 'ADMIN' && <Link to="/admin">Mi negocio</Link>}
+            {user?.role === 'ADMIN' && <Link to="/admin">Mi bodega</Link>}
             {user?.role === 'SUPER_ADMIN' && <Link to="/superadmin">Gestión de plataforma</Link>}
           </nav>
           <div className="header-account">
@@ -55,7 +56,7 @@ export function SiteLayout() {
               <>
                 <Link to="/ingresar">Iniciar sesión</Link>
                 <Link className="button primary" to="/registro">
-                  Crear cuenta
+                  Crear mi tienda
                 </Link>
               </>
             )}
@@ -67,8 +68,8 @@ export function SiteLayout() {
       </main>
       <footer className="site-footer">
         <span className="brand">{APP_NAME}.</span>
-        <span>Conectamos comercios. Simplificamos compras.</span>
-        <span>Hecho para crecer contigo.</span>
+        <span>La tienda en línea de tu bodega.</span>
+        <Link to="/tiendas">Ver todas las tiendas</Link>
       </footer>
     </div>
   );
