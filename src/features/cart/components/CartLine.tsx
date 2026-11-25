@@ -20,7 +20,7 @@ export function CartLine({ item, currency }: CartLineProps) {
       <div className="cart-line-content">
         <h3>{item.name}</h3>
         <p className="muted">
-          {Object.entries(item.options).map(([key, value]) => `${key}: ${value}`).join(' · ') || item.sku}
+          {Object.values(item.options).join(' · ') || 'Presentación estándar'}
         </p>
         <p>
           {money(item.chargedUnitPrice, currency)} por unidad{' '}

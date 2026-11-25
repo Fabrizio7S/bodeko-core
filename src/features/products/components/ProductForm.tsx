@@ -2,9 +2,10 @@ import { useState, type FormEvent } from 'react';
 import { Button, ErrorNotice, Field, Loading, Select } from '@/core/components';
 import { useCategories } from '@/features/categories';
 import { useAction } from '@/core/hooks/useAction';
-import { isHttpUrl, isMoney } from '@/utils/validation';
+import { isMoney } from '@/utils/validation';
 import { productService } from '../services/productService';
 import type { Product } from '../types';
+import { ProductImageInput } from './ProductImageInput';
 import { ProductVariantsPanel } from './ProductVariantsPanel';
 /** Datos del editor. Sin product se crea un producto en borrador. */
 export interface ProductFormProps {
@@ -19,7 +20,8 @@ export function ProductForm({ storeId, product, onSaved }: ProductFormProps) {
   const [name, setName] = useState(product?.name || '');
   const [description, setDescription] = useState(product?.description || '');
   const [price, setPrice] = useState(product?.basePrice.toString() || '');
-  const [imageUrl, setImageUrl] = useState(product?.imageUrl || '');
+  const [imageUrl, setImageUrl] = useState<string | null>(product?.imageUrl || null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [categoryId, setCategoryId] = useState(product?.categoryId || '');
   const [taxExempt, setTaxExempt] = useState(product?.taxExempt || false);
   const [submitted, setSubmitted] = useState(false);
@@ -29,13 +31,11 @@ export function ProductForm({ storeId, product, onSaved }: ProductFormProps) {
       !isMoney(price) || Number(price) < 0.01 || Number(price) > 100000
         ? 'Ingresa un precio entre 0.01 y 100000.00 con hasta dos decimales.'
         : '',
-    image:
-      imageUrl && !isHttpUrl(imageUrl) ? 'Ingresa una URL que empiece con https:// o http://.' : '',
   };
   async function submit(event: FormEvent) {
     event.preventDefault();
     setSubmitted(true);
-    if (Object.values(errors).some(Boolean)) return;
+    if (uploadingImage || Object.values(errors).some(Boolean)) return;
     const result = await action.run(
       () =>
         productService.save(
@@ -44,7 +44,7 @@ export function ProductForm({ storeId, product, onSaved }: ProductFormProps) {
             name: name.trim(),
             description: description.trim(),
             basePrice: Number(price),
-            imageUrl: imageUrl || null,
+            imageUrl,
             categoryId: categoryId || null,
             taxExempt,
           },
@@ -84,14 +84,11 @@ export function ProductForm({ storeId, product, onSaved }: ProductFormProps) {
         required
         error={submitted ? errors.price : ''}
       />
-      <Field
-        label="URL de imagen (opcional)"
-        example="https://mitienda.com/cafe.jpg"
-        maxLength={500}
-        type="url"
-        value={imageUrl}
+      <ProductImageInput
+        storeId={storeId}
+        initialUrl={product?.imageUrl}
         onChange={setImageUrl}
-        error={submitted ? errors.image : ''}
+        onBusyChange={setUploadingImage}
       />
       <ErrorNotice message={categories.error} retry={categories.reload} />
       {categories.loading ? (
@@ -119,7 +116,7 @@ export function ProductForm({ storeId, product, onSaved }: ProductFormProps) {
       <Button
         type="submit"
         pending={action.pending}
-        disabled={categories.loading || !!categories.error}
+        disabled={categories.loading || !!categories.error || uploadingImage}
       >
         {product ? 'Guardar cambios' : 'Guardar como borrador'}
       </Button>

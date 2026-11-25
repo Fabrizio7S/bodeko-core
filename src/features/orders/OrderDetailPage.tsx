@@ -49,7 +49,7 @@ export function OrderDetailPage() {
         actions={<Link to={`/admin/${store.id}/ordenes`}>Volver a órdenes</Link>}
       />
       <section className="card">
-        <OrderDetails order={order} currency={store.currency} />
+        <OrderDetails order={order} currency={store.currency} showSku />
         {['PAID', 'SHIPPED', 'DELIVERED'].includes(order.status) && (
           <Link className="button secondary document-order-link" to={`/admin/${store.id}/ordenes/${order.id}/comprobante`}>
             <FileText size={16} /> Ver boleta o factura

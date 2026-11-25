@@ -25,6 +25,12 @@ const messages: Record<string, string> = {
   PURCHASE_ORDER_INVALID_RECEIPT: 'Las cantidades recibidas o rechazadas superan lo pendiente.',
   ORDER_TRACKING_REQUIRES_SHIPPED: 'El seguimiento se agrega cuando la orden está enviada.',
   PRICE_LIMIT: 'El importe supera el límite permitido para un cobro.',
+  IMAGE_REQUIRED: 'Elige una imagen para subir.',
+  IMAGE_TOO_LARGE: 'La imagen pesa más de 5 MB. Elige una más liviana.',
+  IMAGE_UNSUPPORTED_TYPE: 'Solo se admiten imágenes JPG, PNG, WEBP o GIF.',
+  IMAGE_PATH_INVALID: 'La imagen no pertenece a esta tienda. Vuelve a subirla.',
+  STORAGE_NOT_CONFIGURED: 'La subida de imágenes no está disponible por ahora.',
+  STORAGE_UNAVAILABLE: 'No se pudo guardar la imagen. Inténtalo nuevamente.',
 
   BAD_CREDENTIALS: 'El correo o la contraseña son incorrectos.',
   USER_EMAIL_EXIST: 'Este correo ya está registrado.',
@@ -72,6 +78,7 @@ export function errorMessage(error: unknown): string {
       return 'Tu sesión no es válida o expiró. Vuelve a iniciar sesión.';
     if (error.response.status === 403) return 'No tienes permiso para realizar esta acción.';
     if (error.response.status === 404) return 'No se encontró el recurso solicitado.';
+    if (error.response.status === 413) return 'La imagen pesa más de 5 MB. Elige una más liviana.';
     if (error.response.status === 409)
       return 'Los datos entran en conflicto con un registro existente. Actualiza la página e inténtalo de nuevo.';
     return 'No se pudo completar la solicitud. Inténtalo de nuevo.';

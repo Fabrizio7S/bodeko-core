@@ -5,9 +5,11 @@ import type { Order } from '../types';
 export interface OrderDetailsProps {
   order: Order;
   currency: string;
+  /** Muestra el SKU de cada línea. Solo para el panel de la bodega; el cliente no lo necesita. */
+  showSku?: boolean;
 }
 /** Muestra productos, datos fiscales y totales de la orden. */
-export function OrderDetails({ order, currency }: OrderDetailsProps) {
+export function OrderDetails({ order, currency, showSku = false }: OrderDetailsProps) {
   return (
     <>
       <div className="section-heading">
@@ -65,7 +67,8 @@ export function OrderDetails({ order, currency }: OrderDetailsProps) {
                 <td>
                   {item.productName}
                   <small className="muted order-details-item">
-                    {Object.entries(item.variantOptions).map(([key, value]) => `${key}: ${value}`).join(' · ') || 'Presentación estándar'} · SKU {item.variantSku}
+                    {Object.values(item.variantOptions).join(' · ') || 'Presentación estándar'}
+                    {showSku && ` · SKU ${item.variantSku}`}
                   </small>
                 </td>
                 <td>{item.quantity}</td>

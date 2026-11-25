@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import { ErrorBoundary } from '@/core/components/ErrorBoundary';
 import '@/assets/styles.css';
-import '@/assets/theme.css';
 
 /** Punto de entrada de la SPA; StrictMode detecta efectos sin limpieza en desarrollo. */
 const root = document.getElementById('root');

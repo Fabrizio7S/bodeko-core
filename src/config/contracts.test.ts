@@ -15,6 +15,7 @@ import { cartService } from '@/features/cart/services/cartService';
 import { checkoutService } from '@/features/checkout/services/checkoutService';
 import { paymentService } from '@/features/payments/services/paymentService';
 import { inventoryService } from '@/features/inventory/services/inventoryService';
+import { productService } from '@/features/products/services/productService';
 
 describe('Contratos de integración con Spring', () => {
   beforeEach(() => {
@@ -33,6 +34,14 @@ describe('Contratos de integración con Spring', () => {
     expect(api.get).toHaveBeenCalledWith('/public/stores/store/products', {
       params: { search: 'café', categoryId: undefined, inStock: true, page: 2, size: 12 },
     });
+  });
+  it('sube la imagen del producto como multipart en el campo file', async () => {
+    const file = new File(['img'], 'cafe.png', { type: 'image/png' });
+    await productService.uploadImage('store', file);
+    const [url, body] = vi.mocked(api.post).mock.calls[0] ?? [];
+    expect(url).toBe('/stores/store/products/images');
+    expect(body).toBeInstanceOf(FormData);
+    expect((body as FormData).get('file')).toBe(file);
   });
   it('persiste cambios de cantidad mediante el endpoint del cliente', async () => {
     await cartService.update('store', 'product', 3);

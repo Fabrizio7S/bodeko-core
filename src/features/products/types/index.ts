@@ -23,6 +23,13 @@ export interface ProductVariant {
   isDefault: boolean;
   active: boolean;
 }
+/** Respuesta de la subida: `path` va en `imageUrl`; `url` solo sirve para la vista previa. */
+export interface UploadedImage {
+  path: string;
+  url: string;
+  contentType: string;
+  size: number;
+}
 /** Datos editables del producto; estado se modifica con endpoint separado. */
 export interface ProductInput {
   name: string;

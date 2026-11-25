@@ -43,55 +43,62 @@ export function ProductDetailPage() {
         <section className="card detail-content">
           <span className="eyebrow">{store.name}</span>
           <h1>{product.name}</h1>
-          <div className="price">
-            <strong>{money(displayedPrice, store.currency)}</strong>
-            {displayedPrice < listPrice && <del>{money(listPrice, store.currency)}</del>}
+          <div className="detail-price">
+            <div className="price">
+              <strong>{money(displayedPrice, store.currency)}</strong>
+              {displayedPrice < listPrice && <del>{money(listPrice, store.currency)}</del>}
+            </div>
+            <span className={`badge ${(selectedVariant?.quantity ?? (product.inStock ? 1 : 0)) > 0 ? 'badge-active' : 'badge-cancelled'}`}>
+              {(selectedVariant?.quantity ?? (product.inStock ? 1 : 0)) > 0 ? 'En stock' : 'Agotado'}
+            </span>
           </div>
-          <span className={`badge ${(selectedVariant?.quantity ?? (product.inStock ? 1 : 0)) > 0 ? 'badge-active' : ''}`}>
-            {(selectedVariant?.quantity ?? (product.inStock ? 1 : 0)) > 0 ? 'En stock' : 'Agotado'}
-          </span>
           <p className="description">
             {product.description || 'Este producto todavía no tiene descripción.'}
           </p>
-          {variants.length > 0 && (
-            <Select
-              label="Presentación, talla o color"
-              value={selectedVariant?.id ?? ''}
-              onChange={setSelectedVariantId}
-              options={variants.map((variant) => ({
-                value: variant.id,
-                label: `${Object.entries(variant.options).map(([key, value]) => `${key}: ${value}`).join(' · ') || 'Presentación estándar'} · SKU ${variant.sku}${variant.quantity > 0 ? '' : ' · Agotado'}`,
-              }))}
-            />
-          )}
-          <Field
-            label="Cantidad"
-            example="2"
-            rule="digits"
-            inputMode="numeric"
-            maxLength={10}
-            value={quantity}
-            onChange={setQuantity}
-            error={!isInteger(quantity, 1) ? 'Ingresa un entero mayor que cero.' : !quantityValid ? 'La cantidad supera las existencias disponibles.' : ''}
-          />
-          {!user ? (
-            <Link
-              className="button primary"
-              to={`/tienda/${store.subdomain}/ingresar?next=${encodeURIComponent(`/tienda/${store.subdomain}/producto/${product.id}`)}`}
-            >
-              Inicia sesión para comprar
-            </Link>
-          ) : (
-            user.role === 'CUSTOMER' && (
-              <Button
-                pending={cart.pending}
-                disabled={!selectedVariant || selectedVariant.quantity < 1 || !quantityValid || cart.loading}
-                onClick={() => selectedVariant && void cart.add(product.id, selectedVariant.id, Number(quantity))}
-              >
-                Agregar al carrito
-              </Button>
-            )
-          )}
+          <div className="detail-buy">
+            {variants.length > 0 && (
+              <Select
+                label="Presentación"
+                hint="Elige la opción que quieres comprar."
+                value={selectedVariant?.id ?? ''}
+                onChange={setSelectedVariantId}
+                options={variants.map((variant) => ({
+                  value: variant.id,
+                  label: `${Object.values(variant.options).join(' · ') || 'Presentación estándar'}${variant.quantity > 0 ? '' : ' (agotado)'}`,
+                }))}
+              />
+            )}
+            <div className="detail-buy-row">
+              <Field
+                label="Cantidad"
+                example="2"
+                rule="digits"
+                inputMode="numeric"
+                maxLength={10}
+                value={quantity}
+                onChange={setQuantity}
+                error={!isInteger(quantity, 1) ? 'Ingresa un entero mayor que cero.' : !quantityValid ? 'La cantidad supera las existencias disponibles.' : ''}
+              />
+              {!user ? (
+                <Link
+                  className="button primary"
+                  to={`/tienda/${store.subdomain}/ingresar?next=${encodeURIComponent(`/tienda/${store.subdomain}/producto/${product.id}`)}`}
+                >
+                  Inicia sesión para comprar
+                </Link>
+              ) : (
+                user.role === 'CUSTOMER' && (
+                  <Button
+                    pending={cart.pending}
+                    disabled={!selectedVariant || selectedVariant.quantity < 1 || !quantityValid || cart.loading}
+                    onClick={() => selectedVariant && void cart.add(product.id, selectedVariant.id, Number(quantity))}
+                  >
+                    Agregar al carrito
+                  </Button>
+                )
+              )}
+            </div>
+          </div>
           <ErrorNotice message={cart.error} />
           <p className="trust">
             <ShieldCheck size={18} />

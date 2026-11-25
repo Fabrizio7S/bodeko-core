@@ -16,7 +16,7 @@ function labelTables(root: HTMLElement) {
 }
 
 /**
- * En celular las tablas se muestran como tarjetas (ver .admin-content table en theme.css).
+ * En celular las tablas se muestran como tarjetas (ver .admin-content table en assets/styles.css).
  * Este hook pone la etiqueta de la columna en cada celda sin tocar cada página.
  */
 export function useTableLabels(ref: RefObject<HTMLElement | null>) {
