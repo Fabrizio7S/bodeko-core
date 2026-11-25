@@ -1,20 +1,17 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   Boxes,
-  ClipboardList,
   MessageCircle,
   Package,
   ReceiptText,
   Store,
   Truck,
 } from 'lucide-react';
-import { ErrorNotice, Loading } from '@/core/components';
 import { useSession } from '@/context/SessionContext';
-import { useTopSellingStores } from './hooks/useTopSellingStores';
 import './landing.css';
 
-/** Lo que el sistema hace de verdad; cada punto corresponde a una sección del panel. */
 const features = [
   {
     icon: Package,
@@ -38,16 +35,39 @@ const features = [
   },
 ];
 
-/** Portada pensada para el dueño de la bodega; las tiendas destacadas vienen de la API. */
+const CATEGORIES = [
+  'Abarrotes', 'Bebidas', 'Lácteos', 'Panadería', 'Limpieza',
+  'Snacks', 'Carnes', 'Verduras', 'Licores', 'Útiles escolares',
+];
+
+/** Activa bk-reveal cuando el elemento entra en pantalla. */
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in-view'); obs.unobserve(e.target); } }),
+      { threshold: 0.1 },
+    );
+    el.querySelectorAll<HTMLElement>('.bk-reveal').forEach((t) => obs.observe(t));
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+}
+
 export function StoresPage() {
-  const resource = useTopSellingStores();
   const { user } = useSession();
-  const stores = resource.data ?? [];
   const start = user?.role === 'ADMIN' ? '/admin' : '/registro';
   const startLabel = user?.role === 'ADMIN' ? 'Ir a mi bodega' : 'Crear mi tienda';
+  const pageRef = useScrollReveal();
+
+  // Duplicamos las categorías para que el scroll sea infinito sin saltos
+  const tickerItems = [...CATEGORIES, ...CATEGORIES];
 
   return (
-    <div className="bk-landing">
+    <div className="bk-landing" ref={pageRef}>
+      {/* ── Hero ── */}
       <section className="bk-hero" aria-labelledby="hero-title">
         <div className="bk-hero-copy">
           <p className="bk-kicker">
@@ -86,7 +106,20 @@ export function StoresPage() {
         </div>
       </section>
 
-      <section id="funciones" className="bk-section" aria-labelledby="features-title">
+      {/* ── Ticker de categorías ── */}
+      <div className="bk-ticker" aria-hidden="true">
+        <div className="bk-ticker-track">
+          {tickerItems.map((cat, i) => (
+            <span className="bk-ticker-item" key={i}>
+              <span className="bk-ticker-dot" />
+              {cat}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Funciones ── */}
+      <section id="funciones" className="bk-section bk-reveal" aria-labelledby="features-title">
         <h2 id="features-title">Lo que hoy anotas en el cuaderno, aquí se ordena solo.</h2>
         <div className="bk-features">
           {features.map(({ icon: Icon, title, text }) => (
@@ -99,7 +132,88 @@ export function StoresPage() {
         </div>
       </section>
 
-      <section id="como-empezar" className="bk-section bk-steps" aria-labelledby="steps-title">
+      {/* ── Preview del panel ── */}
+      <section className="bk-preview-section bk-reveal" aria-label="Vista previa del panel">
+        <span className="bk-eyebrow">Tu panel</span>
+        <h2>Todo tu negocio, en una sola pantalla.</h2>
+        <p>Catálogo, stock, pedidos y ventas. Así se ve tu bodega desde adentro.</p>
+
+        <div className="bk-browser">
+          {/* Barra del navegador */}
+          <div className="bk-browser-bar">
+            <div className="bk-dots">
+              <span /><span /><span />
+            </div>
+            <div className="bk-addr">bodeko.app/panel</div>
+          </div>
+
+          {/* Contenido del dashboard */}
+          <div className="bk-dash-mock">
+            <div className="bk-dash-top">
+              <div>
+                <div className="bk-dash-greeting">Hola, Rosa 👋</div>
+                <div className="bk-dash-date">Así va Bodega Doña Rosa hoy.</div>
+              </div>
+              <button className="bk-dash-btn">+ Agregar producto</button>
+            </div>
+
+            {/* KPIs */}
+            <div className="bk-kpi-row">
+              <div className="bk-kpi-card accent">
+                <div className="bk-kpi-label">Vendido hoy</div>
+                <div className="bk-kpi-value">S/ 248</div>
+                <div className="bk-kpi-hint">3 pedidos cobrados</div>
+              </div>
+              <div className="bk-kpi-card">
+                <div className="bk-kpi-label">Por preparar</div>
+                <div className="bk-kpi-value">2</div>
+                <div className="bk-kpi-hint">Pedidos pagados sin enviar</div>
+              </div>
+              <div className="bk-kpi-card">
+                <div className="bk-kpi-label">Últimos 7 días</div>
+                <div className="bk-kpi-value">S/ 1,420</div>
+                <div className="bk-kpi-hint">11 pedidos cobrados</div>
+              </div>
+              <div className="bk-kpi-card">
+                <div className="bk-kpi-label">Ticket promedio</div>
+                <div className="bk-kpi-value">S/ 129</div>
+                <div className="bk-kpi-hint">Por pedido, 7 días</div>
+              </div>
+            </div>
+
+            {/* Fila inferior */}
+            <div className="bk-dash-row">
+              {/* Mini gráfico */}
+              <div className="bk-mini-card">
+                <div className="bk-mini-title">Ventas de la semana</div>
+                <div className="bk-chart-bars">
+                  {[35, 55, 40, 70, 48, 90, 60].map((h, i) => (
+                    <div key={i} className={`bk-bar${i === 5 ? ' active' : ''}`} style={{ height: `${h}%` }} />
+                  ))}
+                </div>
+              </div>
+              {/* Por atender */}
+              <div className="bk-mini-card">
+                <div className="bk-mini-title">Por atender</div>
+                {[
+                  { name: 'Bodega Central', total: 'S/ 85', status: 'Pagado' },
+                  { name: 'Juan Pérez', total: 'S/ 42', status: 'Pagado' },
+                  { name: 'María López', total: 'S/ 121', status: 'Pendiente' },
+                ].map((o) => (
+                  <div key={o.name} className="bk-order-row">
+                    <span className="bk-order-name">{o.name}</span>
+                    <span>{o.total}</span>
+                    <span className="bk-order-status">{o.status}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Pasos ── */}
+      <section id="como-empezar" className="bk-section bk-steps bk-reveal" aria-labelledby="steps-title">
         <h2 id="steps-title">Empieza en tres pasos</h2>
         <ol>
           <li>
@@ -126,42 +240,8 @@ export function StoresPage() {
         </ol>
       </section>
 
-      <section id="tiendas" className="bk-section" aria-labelledby="stores-title">
-        <div className="bk-section-head">
-          <h2 id="stores-title">Bodegas que ya venden con Bodeko</h2>
-          <Link to="/tiendas">
-            Ver todas <ArrowRight size={16} aria-hidden="true" />
-          </Link>
-        </div>
-        <ErrorNotice message={resource.error} retry={resource.reload} />
-        {resource.loading ? (
-          <Loading />
-        ) : resource.error ? null : stores.length === 0 ? (
-          <p className="bk-muted">
-            Aquí aparecerán las tiendas con más pedidos. ¿La tuya será la primera?
-          </p>
-        ) : (
-          <ol className="bk-stores">
-            {stores.map((store, index) => (
-              <li key={store.id}>
-                <Link to={`/tienda/${encodeURIComponent(store.subdomain)}`}>
-                  <span className="bk-rank">{index + 1}</span>
-                  <span className="bk-store-name">
-                    <strong>{store.name}</strong>
-                    <small>
-                      <ClipboardList size={13} aria-hidden="true" /> {store.salesCount}{' '}
-                      {store.salesCount === 1 ? 'pedido' : 'pedidos'}
-                    </small>
-                  </span>
-                  <ArrowRight size={18} aria-hidden="true" />
-                </Link>
-              </li>
-            ))}
-          </ol>
-        )}
-      </section>
-
-      <section className="bk-cta" aria-labelledby="cta-title">
+      {/* ── CTA ── */}
+      <section className="bk-cta bk-reveal" aria-labelledby="cta-title">
         <h2 id="cta-title">Abre tu bodega en internet hoy mismo.</h2>
         <Link className="button bk-big bk-cta-button" to={start}>
           {startLabel} <ArrowRight size={18} aria-hidden="true" />

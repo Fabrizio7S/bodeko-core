@@ -215,10 +215,12 @@ export function Modal({
   title,
   onClose,
   children,
+  size,
 }: {
   title: string;
   onClose: () => void;
   children: ReactNode;
+  size?: 'lg';
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -230,7 +232,7 @@ export function Modal({
   return (
     <dialog
       ref={dialog}
-      className="modal"
+      className={size ? `modal modal--${size}` : 'modal'}
       aria-labelledby={titleId}
       onCancel={(event) => {
         event.preventDefault();

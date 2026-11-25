@@ -151,6 +151,7 @@ export function ProductsPage() {
         <Modal
           title={editor === 'new' ? 'Agregar producto' : 'Editar producto'}
           onClose={() => setEditor(null)}
+          size="lg"
         >
           <ProductForm
             storeId={store.id}
