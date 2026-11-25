@@ -817,31 +817,6 @@ td small {
   margin-left: auto;
   font-size: 14px;
 }
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1.5px solid #c8c3bc;
-  background: #ffffff;
-  color: #44403c;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-}
-.theme-toggle:hover {
-  background: #f5f0eb;
-}
-[data-theme='dark'] .theme-toggle {
-  background: #242424;
-  border-color: #555;
-  color: #e0dbd4;
-}
-[data-theme='dark'] .theme-toggle:hover {
-  background: #2e2e2e;
-}
 .header-account > * {
   white-space: nowrap;
 }
@@ -1595,7 +1570,6 @@ td small {
 @media (prefers-reduced-motion: reduce) {
   .auth-cat-card { animation: none; }
 }
-.auth-cat-emoji { display: none; }
 .auth-cat-name {
   font-size: 13px;
   font-weight: 700;

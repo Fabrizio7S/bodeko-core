@@ -27,7 +27,7 @@ export function SiteLayout() {
               <>
                 <a className="nav-anchor" href="#funciones">Qué incluye</a>
                 <a className="nav-anchor" href="#como-empezar">Cómo empezar</a>
-                <a className="nav-anchor" href="#tiendas">Tiendas</a>
+                <Link to="/tiendas">Tiendas</Link>
               </>
             ) : (
               <Link to="/tiendas">Tiendas</Link>

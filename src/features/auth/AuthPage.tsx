@@ -1,14 +1,14 @@
 import { AuthForm } from './components/AuthForm';
 
 const CATEGORIES = [
-  { emoji: '🛒', name: 'Abarrotes', items: 'Arroz, azúcar, aceite...' },
-  { emoji: '🥤', name: 'Bebidas', items: 'Agua, gaseosas, jugos...' },
-  { emoji: '🥛', name: 'Lácteos', items: 'Leche, queso, yogur...' },
-  { emoji: '🍞', name: 'Panadería', items: 'Pan, galletas, tostadas...' },
-  { emoji: '🧹', name: 'Limpieza', items: 'Jabón, detergente, lejía...' },
-  { emoji: '🍿', name: 'Snacks', items: 'Papas, chifles, maní...' },
-  { emoji: '🥩', name: 'Carnes', items: 'Pollo, res, menudencia...' },
-  { emoji: '🧃', name: 'Licores', items: 'Cerveza, vino, ron...' },
+  { name: 'Abarrotes', items: 'Arroz, azúcar, aceite...' },
+  { name: 'Bebidas', items: 'Agua, gaseosas, jugos...' },
+  { name: 'Lácteos', items: 'Leche, queso, yogur...' },
+  { name: 'Panadería', items: 'Pan, galletas, tostadas...' },
+  { name: 'Limpieza', items: 'Jabón, detergente, lejía...' },
+  { name: 'Snacks', items: 'Papas, chifles, maní...' },
+  { name: 'Carnes', items: 'Pollo, res, menudencia...' },
+  { name: 'Licores', items: 'Cerveza, vino, ron...' },
 ];
 
 /** Vista pública de acceso y registro, centrada y adaptable a dispositivos móviles. */
@@ -26,7 +26,6 @@ export function AuthPage({ register = false }: { register?: boolean }) {
           <div className="auth-cat-grid">
             {CATEGORIES.map((cat) => (
               <div key={cat.name} className="auth-cat-card">
-                <span className="auth-cat-emoji">{cat.emoji}</span>
                 <span className="auth-cat-name">{cat.name}</span>
                 <span className="auth-cat-items">{cat.items}</span>
               </div>

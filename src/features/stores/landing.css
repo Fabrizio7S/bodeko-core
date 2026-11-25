@@ -176,77 +176,7 @@
   font-size: 17px;
 }
 
-/* 4. Tiendas destacadas */
-.bk-section-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 32px;
-}
-.bk-section-head a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-.bk-stores {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bk-stores a {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--ink);
-  transition:
-    border-color 0.15s,
-    box-shadow 0.15s;
-}
-.bk-stores a:hover {
-  text-decoration: none;
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow);
-}
-.bk-rank {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: var(--radius-sm);
-  background: var(--brand-soft);
-  color: var(--brand);
-  font-size: 17px;
-  font-weight: 800;
-}
-.bk-store-name {
-  flex: 1;
-  min-width: 0;
-}
-.bk-store-name strong {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.bk-store-name small {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* 5. Llamado final */
+/* 4. Llamado final */
 .bk-cta {
   display: flex;
   flex-wrap: wrap;
@@ -273,7 +203,6 @@
   .bk-features {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .bk-stores,
   .bk-steps ol {
     grid-template-columns: 1fr;
   }
